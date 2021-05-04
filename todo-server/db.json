@@ -1,58 +1,33 @@
 {
   "tasks": [
     {
-      "title": "Check homework",
-      "description": "",
-      "columnId": "e5bbe39c-428a-4cf4-be50-023fe25f1777",
-      "id": "ca761ea1-2a9d-44ba-b205-39d28240d0d2"
+      "title": "wash car",
+      "description": "in garage",
+      "columnId": "940834a8-19e9-48d4-b670-ba9497d285c7",
+      "id": "423a16e5-f65a-4829-bb16-49910f590bb2"
     },
     {
-      "title": "Drink water",
-      "description": "",
-      "columnId": "76185de3-b009-4687-8dc5-02ba8e5fedfc",
-      "id": "d1110f2b-80d6-4ecc-98a5-35eab767cadd"
+      "title": "test",
+      "description": "test",
+      "columnId": "940834a8-19e9-48d4-b670-ba9497d285c7",
+      "id": "00974c41-cbfa-4435-9f05-e0a55b6ec46d"
     }
   ],
   "columns": [
     {
       "title": "To Do",
-      "id": "76185de3-b009-4687-8dc5-02ba8e5fedfc",
-      "userId": "WWdVfB1YxNTfKCMULSqgOqAyjMxyCgbp@clients"
+      "id": "774f5471-5c90-41b4-afdf-5b6f201c2848",
+      "userId": "google-oauth2|107295620294165269209"
     },
     {
       "title": "In Progress",
-      "id": "ee07cbf8-773e-46ce-8bb1-51f83a4495f6",
-      "userId": "WWdVfB1YxNTfKCMULSqgOqAyjMxyCgbp@clients"
-    },
-    {
-      "title": "Done",
-      "id": "e5bbe39c-428a-4cf4-be50-023fe25f1777",
-      "userId": "WWdVfB1YxNTfKCMULSqgOqAyjMxyCgbp@clients"
-    },
-    {
-      "title": "Auth",
-      "id": "f29361a0-1819-4ee0-9784-6b272e2f4eac",
+      "id": "940834a8-19e9-48d4-b670-ba9497d285c7",
       "userId": "google-oauth2|107295620294165269209"
     },
     {
-      "title": "Auth",
-      "id": "e6e867aa-936d-4718-9892-dcae6cd90bf1",
-      "userId": "google-oauth2|107295620294165269209"
-    },
-    {
-      "title": "One More",
-      "id": "f0d866b0-8dd9-41f5-8c86-46133d410e3d",
-      "userId": "google-oauth2|107295620294165269209"
-    },
-    {
-      "title": "Auth",
-      "id": "e16eab8a-b9a9-4c79-9412-9f79656b9514",
-      "userId": "google-oauth2|107295620294165269209"
-    },
-    {
-      "title": "Test test",
-      "id": "baacefb4-89f0-4a19-8489-b545519764e5",
-      "userId": "google-oauth2|107295620294165269209"
+      "title": "To Do",
+      "id": "b6218bf2-1831-40a1-b3d4-9c74db89ffac",
+      "userId": "auth0|6091a69831ffd100691d59f0"
     }
   ]
 }

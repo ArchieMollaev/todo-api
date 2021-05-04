@@ -1,274 +1,125 @@
 import React, { useState } from 'react';
-import { Button, Alert } from 'reactstrap';
-import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
-import axios from 'axios';
-import Highlight from '../components/Highlight';
-import getConfig from '../config';
+import { Button, Input } from 'reactstrap';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 import Loading from '../components/Loading';
+import { useToDoApi } from '../utils/useToDoApi';
+import syntaxHighlight from '../utils/syntaxHighlight';
 
 export const ExternalApiComponent = () => {
-  const { apiOrigin = 'http://localhost:3001', audience } = getConfig();
+  const [response, setResponse] = useState(null);
+  const [columnNameInputValue, setColumnNameInputValue] = useState('');
 
-  const [state, setState] = useState({
-    showResult: false,
-    apiMessage: '',
-    error: null,
-  });
+  const [taskTitleInput, setTaskTitleInput] = useState('');
+  const [taskDescriptionInput, setTaskDescriptionInput] = useState('');
+  const [taskColumnIdInput, setTaskColumnIdInput] = useState('');
 
-  const {
-    getAccessTokenSilently,
-    loginWithPopup,
-    getAccessTokenWithPopup,
-  } = useAuth0();
+  const [taskIdToDelete, setTaskIdToDelete] = useState('');
+  const [columnIdToDelete, setColumnIdToDelete] = useState('');
 
-  const handleConsent = async () => {
-    try {
-      await getAccessTokenWithPopup();
-      setState({
-        ...state,
-        error: null,
-      });
-    } catch (error) {
-      setState({
-        ...state,
-        error: error.error,
-      });
-    }
-
-    await callApi();
-  };
-
-  const handleLoginAgain = async () => {
-    try {
-      await loginWithPopup();
-      setState({
-        ...state,
-        error: null,
-      });
-    } catch (error) {
-      setState({
-        ...state,
-        error: error.error,
-      });
-    }
-
-    await callApi();
-  };
-
-  const callApi = async () => {
-    try {
-      const token = await getAccessTokenSilently();
-
-      const { data } = await axios.get(`${apiOrigin}/api/external`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setState({
-        ...state,
-        showResult: true,
-        apiMessage: data,
-      });
-    } catch (error) {
-      setState({
-        ...state,
-        error: error.error,
-      });
-    }
-  };
-
-  const createColumn = async () => {
-    try {
-      const token = await getAccessTokenSilently();
-      await axios.post(`${apiOrigin}/api/columns`, { title: 'Test test' }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (error) {
-      setState({
-        ...state,
-        error: error.error,
-      });
-    }
-  };
-
-  const getData = async () => {
-    try {
-      const token = await getAccessTokenSilently();
-      await axios.get(`${apiOrigin}/api/columns?_embed=tasks`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (error) {
-      setState({
-        ...state,
-        error: error.error,
-      });
-    }
-  };
-
-  const handle = (e, fn) => {
-    e.preventDefault();
-    fn();
-  };
+  const todoApi = useToDoApi();
 
   return (
     <>
-      <div className="mb-5">
-        {state.error === 'consent_required' && (
-          <Alert color="warning">
-            You need to
-            {' '}
-            <a
-              href="#/"
-              className="alert-link"
-              onClick={(e) => handle(e, handleConsent)}
-            >
-              consent to get access to users api
-            </a>
-          </Alert>
-        )}
+      <div className="row mb-5">
+        <div className="col mb-4">
+          <Button
+            color="primary"
+            onClick={() => todoApi.getUserData().then(setResponse, setResponse)}
+          >
+            Get User Data
+          </Button>
+        </div>
 
-        {state.error === 'login_required' && (
-          <Alert color="warning">
-            You need to
-            {' '}
-            <a
-              href="#/"
-              className="alert-link"
-              onClick={(e) => handle(e, handleLoginAgain)}
-            >
-              log in again
-            </a>
-          </Alert>
-        )}
+        <div className="col mb-4">
+          <Input
+            value={columnNameInputValue}
+            onChange={(e) => setColumnNameInputValue(e.target.value)}
+            placeholder="New column name"
+            className="mb-2"
+          />
+          <Button
+            color="success"
+            onClick={() => columnNameInputValue
+              && todoApi.createColumn(columnNameInputValue).then(setResponse, setResponse)}
+          >
+            Create Column
+          </Button>
+        </div>
 
-        <h1>External API</h1>
-        <p className="lead">
-          Ping an external API by clicking the button below.
-        </p>
+        <div className="col mb-4">
+          <Input
+            value={taskTitleInput}
+            onChange={(e) => setTaskTitleInput(e.target.value)}
+            placeholder="New task title"
+            className="mb-2"
+          />
+          <Input
+            value={taskDescriptionInput}
+            onChange={(e) => setTaskDescriptionInput(e.target.value)}
+            placeholder="New task description"
+            className="mb-2"
+          />
+          <Input
+            value={taskColumnIdInput}
+            onChange={(e) => setTaskColumnIdInput(e.target.value)}
+            placeholder="New column column id"
+            className="mb-2"
+          />
+          <Button
+            color="success"
+            onClick={() => taskColumnIdInput
+              && todoApi.createTask({
+                title: taskTitleInput,
+                description: taskDescriptionInput,
+                columnId: taskColumnIdInput,
+              }).then(setResponse, setResponse)}
+          >
+            Create Task
+          </Button>
+        </div>
 
-        <p>
-          This will call a local API on port 3001 that would have been started
-          if you run
-          {' '}
-          <code>npm run dev</code>
-          . An access token is sent as part
-          of the request's `Authorization` header and the API will validate it
-          using the API's audience value.
-        </p>
+        <div className="col mb-4">
+          <Input
+            value={taskIdToDelete}
+            onChange={(e) => setTaskIdToDelete(e.target.value)}
+            placeholder="Task ID"
+            className="mb-2"
+          />
+          <Button
+            color="danger"
+            onClick={() => taskIdToDelete
+              && todoApi.deleteTask(taskIdToDelete).then(setResponse, setResponse)}
+          >
+            Delete Task
+          </Button>
+        </div>
 
-        {!audience && (
-          <Alert color="warning">
-            <p>
-              You can't call the API at the moment because your application does
-              not have any configuration for
-              {' '}
-              <code>audience</code>
-              , or it is
-              using the default value of
-              {' '}
-              <code>YOUR_API_IDENTIFIER</code>
-              . You
-              might get this default value if you used the "Download Sample"
-              feature of
-              {' '}
-              <a href="https://auth0.com/docs/quickstart/spa/react">
-                the quickstart guide
-              </a>
-              , but have not set an API up in your Auth0 Tenant. You can find
-              out more information on
-              {' '}
-              <a href="https://auth0.com/docs/api">setting up APIs</a>
-              {' '}
-              in the
-              Auth0 Docs.
-            </p>
-            <p>
-              The audience is the identifier of the API that you want to call
-              (see
-              {' '}
-              <a href="https://auth0.com/docs/get-started/dashboard/tenant-settings#api-authorization-settings">
-                API Authorization Settings
-              </a>
-              {' '}
-              for more info).
-            </p>
+        <div className="col mb-4">
+          <Input
+            value={columnIdToDelete}
+            onChange={(e) => setColumnIdToDelete(e.target.value)}
+            placeholder="Column ID"
+            className="mb-2"
+          />
+          <Button
+            color="danger"
+            onClick={() => columnIdToDelete
+              && todoApi.deleteColumn(columnIdToDelete).then(setResponse, setResponse)}
+          >
+            Delete Column
+          </Button>
+        </div>
 
-            <p>
-              In this sample, you can configure the audience in a couple of
-              ways:
-            </p>
-            <ul>
-              <li>
-                in the
-                {' '}
-                <code>src/index.js</code>
-                {' '}
-                file
-              </li>
-              <li>
-                by specifying it in the
-                {' '}
-                <code>auth_config.json</code>
-                {' '}
-                file (see
-                the
-                {' '}
-                <code>auth_config.json.example</code>
-                {' '}
-                file for an example of
-                where it should go)
-              </li>
-            </ul>
-            <p>
-              Once you have configured the value for
-              {' '}
-              <code>audience</code>
-              ,
-              please restart the app and try to use the "Ping API" button below.
-            </p>
-          </Alert>
-        )}
-
-        <Button
-          color="primary"
-          className="mt-5"
-          onClick={callApi}
-          disabled={!audience}
-        >
-          Ping API
-        </Button>
-
-        <Button
-          color="primary"
-          className="mt-5"
-          onClick={getData}
-          disabled={!audience}
-        >
-          Get Data
-        </Button>
-
-        <Button
-          color="primary"
-          className="mt-5"
-          onClick={createColumn}
-          disabled={!audience}
-        >
-          Create Column
-        </Button>
       </div>
 
       <div className="result-block-container">
-        {state.showResult && (
+        {response && (
           <div className="result-block">
             <h6 className="muted">Result</h6>
-            <Highlight>
-              <span>{JSON.stringify(state.apiMessage, null, 2)}</span>
-            </Highlight>
+            <pre dangerouslySetInnerHTML={{
+              __html: syntaxHighlight(JSON.stringify(response, null, 2)),
+            }}
+            />
           </div>
         )}
       </div>

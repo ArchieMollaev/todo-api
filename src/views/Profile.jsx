@@ -2,8 +2,8 @@ import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
-import Highlight from '../components/Highlight';
 import Loading from '../components/Loading';
+import syntaxHighlight from '../utils/syntaxHighlight';
 
 export const ProfileComponent = () => {
   const { user } = useAuth0();
@@ -24,7 +24,7 @@ export const ProfileComponent = () => {
         </Col>
       </Row>
       <Row>
-        <Highlight>{JSON.stringify(user, null, 2)}</Highlight>
+        <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(JSON.stringify(user, null, 2)) }} />
       </Row>
     </Container>
   );

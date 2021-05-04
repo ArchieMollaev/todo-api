@@ -5,6 +5,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
 import history from './utils/history';
 import getConfig from './config';
+import { ToDoApiProvider } from './utils/useToDoApi';
 
 const onRedirectCallback = (appState) => {
   history.push(
@@ -27,7 +28,9 @@ const providerConfig = {
 ReactDOM.render(
   // eslint-disable-next-line react/jsx-props-no-spreading
   <Auth0Provider {...providerConfig}>
-    <App />
+    <ToDoApiProvider>
+      <App />  
+    </ToDoApiProvider>
   </Auth0Provider>,
   document.getElementById('root'),
 );
