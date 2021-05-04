@@ -1,0 +1,33 @@
+{
+  "tasks": [
+    {
+      "title": "Check homework",
+      "description": "",
+      "columnId": "e5bbe39c-428a-4cf4-be50-023fe25f1777",
+      "id": "ca761ea1-2a9d-44ba-b205-39d28240d0d2"
+    },
+    {
+      "title": "Drink water",
+      "description": "",
+      "columnId": "76185de3-b009-4687-8dc5-02ba8e5fedfc",
+      "id": "d1110f2b-80d6-4ecc-98a5-35eab767cadd"
+    }
+  ],
+  "columns": [
+    {
+      "title": "To Do",
+      "id": "76185de3-b009-4687-8dc5-02ba8e5fedfc",
+      "userId": "WWdVfB1YxNTfKCMULSqgOqAyjMxyCgbp@clients"
+    },
+    {
+      "title": "In Progress",
+      "id": "ee07cbf8-773e-46ce-8bb1-51f83a4495f6",
+      "userId": "WWdVfB1YxNTfKCMULSqgOqAyjMxyCgbp@clients"
+    },
+    {
+      "title": "Done",
+      "id": "e5bbe39c-428a-4cf4-be50-023fe25f1777",
+      "userId": "WWdVfB1YxNTfKCMULSqgOqAyjMxyCgbp@clients"
+    }
+  ]
+}
