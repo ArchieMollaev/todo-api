@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { NavLink as RouterNavLink } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from 'react';
+import { NavLink as RouterNavLink } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
   Collapse,
   Container,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
   NavLink,
@@ -16,9 +15,10 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from "reactstrap";
+} from 'reactstrap';
 
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from '@auth0/auth0-react';
+import logo from '../assets/logo.svg';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,16 +30,15 @@ const NavBar = () => {
   } = useAuth0();
   const toggle = () => setIsOpen(!isOpen);
 
-  const logoutWithRedirect = () =>
-    logout({
-      returnTo: window.location.origin,
-    });
+  const logoutWithRedirect = () => logout({
+    returnTo: window.location.origin,
+  });
 
   return (
     <div className="nav-container">
       <Navbar color="light" light expand="md">
         <Container>
-          <NavbarBrand className="logo" />
+          <img className="mr-4 app-logo" src={logo} alt="React logo" width="40" />
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
@@ -97,13 +96,17 @@ const NavBar = () => {
                       className="dropdown-profile"
                       activeClassName="router-link-exact-active"
                     >
-                      <FontAwesomeIcon icon="user" className="mr-3" /> Profile
+                      <FontAwesomeIcon icon="user" className="mr-3" />
+                      {' '}
+                      Profile
                     </DropdownItem>
                     <DropdownItem
                       id="qsLogoutBtn"
                       onClick={() => logoutWithRedirect()}
                     >
-                      <FontAwesomeIcon icon="power-off" className="mr-3" /> Log
+                      <FontAwesomeIcon icon="power-off" className="mr-3" />
+                      {' '}
+                      Log
                       out
                     </DropdownItem>
                   </DropdownMenu>

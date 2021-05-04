@@ -1,8 +1,10 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+/* eslint-disable import/no-dynamic-require */
+import React, { Component } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import PropTypes from 'prop-types';
 
-import hljs from "highlight.js";
-import "highlight.js/styles/monokai-sublime.css";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/monokai-sublime.css';
 
 const registeredLanguages = {};
 
@@ -12,6 +14,7 @@ class Highlight extends Component {
 
     this.state = { loaded: false };
     this.codeNode = React.createRef();
+    this.highlight = this.highlight.bind(this);
   }
 
   componentDidMount() {
@@ -19,6 +22,7 @@ class Highlight extends Component {
 
     if (language && !registeredLanguages[language]) {
       try {
+        // eslint-disable-next-line global-require
         const newLanguage = require(`highlight.js/lib/languages/${language}`);
         hljs.registerLanguage(language, newLanguage);
         registeredLanguages[language] = true;
@@ -37,11 +41,12 @@ class Highlight extends Component {
     this.highlight();
   }
 
-  highlight = () => {
-    this.codeNode &&
-      this.codeNode.current &&
+  highlight() {
+    if (this.codeNode
+      && this.codeNode.current) {
       hljs.highlightBlock(this.codeNode.current);
-  };
+    }
+  }
 
   render() {
     const { language, children } = this.props;
@@ -67,7 +72,7 @@ Highlight.propTypes = {
 };
 
 Highlight.defaultProps = {
-  language: "json",
+  language: 'json',
 };
 
 export default Highlight;

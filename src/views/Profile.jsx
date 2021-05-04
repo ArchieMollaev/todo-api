@@ -1,9 +1,9 @@
-import React from "react";
-import { Container, Row, Col } from "reactstrap";
+import React from 'react';
+import { Container, Row, Col } from 'reactstrap';
 
-import Highlight from "../components/Highlight";
-import Loading from "../components/Loading";
-import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
+import Highlight from '../components/Highlight';
+import Loading from '../components/Loading';
 
 export const ProfileComponent = () => {
   const { user } = useAuth0();

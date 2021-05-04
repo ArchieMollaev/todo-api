@@ -1,14 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import { Auth0Provider } from "@auth0/auth0-react";
-import history from "./utils/history";
-import { getConfig } from "./config";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import { Auth0Provider } from '@auth0/auth0-react';
+import App from './App';
+import history from './utils/history';
+import getConfig from './config';
 
 const onRedirectCallback = (appState) => {
   history.push(
-    appState && appState.returnTo ? appState.returnTo : window.location.pathname
+    appState && appState.returnTo ? appState.returnTo : window.location.pathname,
   );
 };
 
@@ -25,8 +25,9 @@ const providerConfig = {
 };
 
 ReactDOM.render(
+  // eslint-disable-next-line react/jsx-props-no-spreading
   <Auth0Provider {...providerConfig}>
     <App />
   </Auth0Provider>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );
